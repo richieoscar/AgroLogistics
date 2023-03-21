@@ -39,7 +39,22 @@ JAVA
 SPRINGBOOT
 
 
+# Application Startup
 
+Default admin user is created
+
+Credentials Below
+
+{
+"email": "admin@system.com",
+"password": "password20"
+}
+
+Login with credentials to get accessToken
+
+Some Endpoints are only accessed by admin
+
+Response code of 403 is returned where user does not have admin role
 
 
 
