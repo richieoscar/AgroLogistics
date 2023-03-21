@@ -1,4 +1,4 @@
-package com.richieoscar.agrologistics.config;
+package com.richieoscar.agrologistics.service;
 
 import com.richieoscar.agrologistics.domain.Staff;
 import com.richieoscar.agrologistics.repository.StaffRepository;

@@ -1,26 +1,37 @@
 package com.richieoscar.agrologistics.mapper;
 
 import com.richieoscar.agrologistics.domain.Location;
+import com.richieoscar.agrologistics.domain.Route;
 import com.richieoscar.agrologistics.dto.LocationDTO;
+import com.richieoscar.agrologistics.dto.RouteDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationMapper implements Mapper<LocationDTO, Location> {
+public class RouteMapper implements Mapper<RouteDTO, Route> {
+
     @Override
-    public LocationDTO mapToDto(Location source) {
-        LocationDTO locationDTO = new LocationDTO();
-        locationDTO.setName(source.getName());
-        locationDTO.setLatitude(source.getLatitude());
-        locationDTO.setLongitude(source.getLongitude());
-        return locationDTO;
+    public RouteDTO mapToDto(Route source) {
+        RouteDTO routeDTO = new RouteDTO();
+        routeDTO.setDistance(source.getDistance());
+        routeDTO.setName(source.getName());
+        routeDTO.setLocation(source.getLocation());
+        routeDTO.setPath(source.getPath());
+        routeDTO.setName(source.getName());
+        routeDTO.setTraffic(source.isTraffic());
+        routeDTO.setTime(source.getTime());
+        return routeDTO;
     }
 
     @Override
-    public Location mapToEntity(LocationDTO source) {
-        Location locationEntity = new Location();
-        locationEntity.setName(source.getName());
-        locationEntity.setLatitude(source.getLatitude());
-        locationEntity.setLongitude(source.getLongitude());
-        return locationEntity;
+    public Route mapToEntity(RouteDTO source) {
+        Route route = new Route();
+        route.setDistance(source.getDistance());
+        route.setName(source.getName());
+        route.setLocation(source.getLocation());
+        route.setPath(source.getPath());
+        route.setName(source.getName());
+        route.setTraffic(source.isTraffic());
+        route.setTime(source.getTime());
+        return route;
     }
 }

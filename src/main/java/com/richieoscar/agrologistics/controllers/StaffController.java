@@ -2,7 +2,6 @@ package com.richieoscar.agrologistics.controllers;
 
 import com.richieoscar.agrologistics.dto.DefaultApiResponse;
 import com.richieoscar.agrologistics.service.StaffService;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("/api/v1/staff")
 public class StaffController {
+
 
     @Autowired
     private StaffService staffService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<DefaultApiResponse> getStaffs(@RequestParam("page") int page, @RequestParam("size") int size) {
         log.info("StaffController::getStaffs");
         return ResponseEntity.ok(staffService.getStaffs(page, size));
