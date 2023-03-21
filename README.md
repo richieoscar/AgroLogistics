@@ -32,17 +32,12 @@ Docker image can be gotten with command
 
 docker pull richieoscar/agrologistics:lts
 
-## On Application StartUp 
-Admin user is created
+# TECHNOLOGIES 
 
-Some endpoints can only be accessed by an admin
+JAVA
 
-Credentials Below
+SPRINGBOOT
 
-{
-"email": "admin@system.com",
-"password": "password20"
-}
 
 
 
