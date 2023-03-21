@@ -11,13 +11,13 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 public class AgroLogisticsApplication {
 
-//    @Autowired
-//    private StaffService staffService;
-//    @Async
-//    @PostConstruct
-//    public void createSystemUser() {
-//        staffService.createSystemUser();
-//    }
+    @Autowired
+    private StaffService staffService;
+    @Async
+    @PostConstruct
+    public void createSystemUser() {
+        staffService.createSystemUser();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(AgroLogisticsApplication.class, args);
