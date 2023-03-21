@@ -113,4 +113,23 @@ public class StaffServiceImpl implements StaffService {
         defaultApiResponse.setMessage("Role Added Successfully");
         return defaultApiResponse;
     }
+
+    @Override
+    public void createSystemUser() {
+        log.info("System Initialization::creating system admin user");
+        Optional<Staff> byEmail = staffRepository.findByEmail("admin@system.com");
+        if(byEmail.isEmpty()){
+            Staff staff = new Staff();
+            staff.setPassword(passwordUtil.encodePassword("password20"));
+            staff.setRegisteredDate(LocalDateTime.now());
+            staff.setEmail("admin@system.com");
+            staff.setRole(Role.ADMIN);
+            staff.setFirstName("Admin");
+            staff.setLastName("User");
+            staffRepository.save(staff);
+            log.info("System Initialization Completed, Admin User Created");
+        }
+    }
+
+
 }

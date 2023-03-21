@@ -16,5 +16,7 @@ public interface StaffService {
     DefaultApiResponse getStaff(int id);
     DefaultApiResponse addRole(Long id, String role);
 
+    void createSystemUser();
+
 
 }
