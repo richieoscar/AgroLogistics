@@ -1,0 +1,5 @@
+FROM openjdk:17-alpine
+WORKDIR /app
+EXPOSE 9080
+COPY target/agrologistics.jar /app/agrologistics.jar
+ENTRYPOINT ["java","-jar","/agrologistics.jar"]
