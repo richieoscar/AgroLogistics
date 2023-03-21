@@ -9,11 +9,13 @@ import com.richieoscar.agrologistics.enumeration.Role;
 import com.richieoscar.agrologistics.exception.StaffException;
 import com.richieoscar.agrologistics.mapper.StaffMapper;
 import com.richieoscar.agrologistics.repository.StaffRepository;
+import com.richieoscar.agrologistics.service.LocationService;
 import com.richieoscar.agrologistics.service.StaffService;
 import com.richieoscar.agrologistics.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -37,6 +39,15 @@ public class StaffServiceImpl implements StaffService {
 
     @Autowired
     private StaffMapper staffMapper;
+
+    @Value("${admin.email}")
+    private String adminEmail;
+
+    @Value("${admin.password}")
+    private String password;
+
+    @Autowired
+    private LocationService locationService;
 
     @Override
     public StaffDTO saveStaff(SignUpRequest signUpRequest) {
@@ -116,20 +127,23 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public void createSystemUser() {
-        log.info("System Initialization::creating system admin user");
         Optional<Staff> byEmail = staffRepository.findByEmail("admin@system.com");
         if(byEmail.isEmpty()){
+            log.info("System Initialization::creating system admin user");
             Staff staff = new Staff();
-            staff.setPassword(passwordUtil.encodePassword("password20"));
+            staff.setPassword(passwordUtil.encodePassword(password));
             staff.setRegisteredDate(LocalDateTime.now());
-            staff.setEmail("admin@system.com");
+            staff.setEmail(adminEmail);
             staff.setRole(Role.ADMIN);
             staff.setFirstName("Admin");
             staff.setLastName("User");
             staffRepository.save(staff);
+            locationService.loadLocations();
             log.info("System Initialization Completed, Admin User Created");
         }
     }
+
+
 
 
 }

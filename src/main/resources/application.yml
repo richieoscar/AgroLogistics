@@ -6,7 +6,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate.format_sql: true
@@ -17,7 +17,11 @@ server:
   port: 9080
 
 secret:
-  key: 8HHUNJRR848HON48848
+  key: 8HHUNJRR848HON488486RT86RR7RR566E64EE67DDFCHFCYDDR65RER45644JHJVTFYRDYRDRTYDDRYD88656564636364354666
 
 price:
   cost: 1
+
+admin:
+   email: admin@system.com
+   password: password20

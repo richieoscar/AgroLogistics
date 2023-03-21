@@ -13,6 +13,7 @@ import com.richieoscar.agrologistics.mapper.RouteMapper;
 import com.richieoscar.agrologistics.repository.LocationRepository;
 import com.richieoscar.agrologistics.repository.RouteRepository;
 import com.richieoscar.agrologistics.service.LocationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,20 +34,26 @@ import static java.util.stream.Collectors.*;
 @Service
 public class LocationServiceImpl implements LocationService {
 
-    @Autowired
-    private LocationRepository locationRepository;
 
-    @Autowired
-    private LocationMapper locationMapper;
+    private final LocationRepository locationRepository;
 
-    @Autowired
-    private RouteMapper routeMapper;
+    private final LocationMapper locationMapper;
+    private final RouteMapper routeMapper;
 
-    @Autowired
-    private RouteRepository routeRepository;
+
+    private final RouteRepository routeRepository;
 
     @Value("${price.cost}")
     private String costPerKilometer;
+
+
+    @Autowired
+    public LocationServiceImpl(LocationRepository locationRepository, LocationMapper locationMapper, RouteMapper routeMapper, RouteRepository routeRepository) {
+        this.locationRepository = locationRepository;
+        this.locationMapper = locationMapper;
+        this.routeMapper = routeMapper;
+        this.routeRepository = routeRepository;
+    }
 
     @Override
     public DefaultApiResponse getLocations(int page, int size) {
@@ -185,5 +192,28 @@ public class LocationServiceImpl implements LocationService {
                 .filter(routeDTO -> !routeDTO.isTraffic())
                 .min(Comparator.comparing(RouteDTO::getCostOfDelivery));
         return bestRoute.orElseThrow(() -> new RouteNotAvailableException("No Routes Available"));
+    }
+
+    public void loadLocations() {
+        Location location = new Location();
+        location.setName("IKORODU");
+        location.setLongitude("9293873.09");
+        location.setLatitude("111223.00");
+        Location location1 = new Location();
+        location1.setName("SANGOTEDO");
+        location1.setLongitude("9293873.09");
+        location1.setLatitude("111223.00");
+        Location location2 = new Location();
+        location2.setName("LEKKI");
+        location2.setLongitude("9293873.09");
+        location2.setLatitude("111223.00");
+        Location location3 = new Location();
+        location3.setName("FESTAC");
+        location3.setLongitude("9293873.09");
+        location3.setLatitude("111223.00");
+        List<Location> initLocations = List.of(
+                location3, location2, location1, location
+        );
+        locationRepository.saveAll(initLocations);
     }
 }

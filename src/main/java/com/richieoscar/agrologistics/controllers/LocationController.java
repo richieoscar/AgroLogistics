@@ -70,7 +70,7 @@ public class LocationController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(route));
     }
 
-    @PutMapping("/update-location/{id}")
+    @PutMapping("/update/{id}")
     public CompletableFuture<ResponseEntity<DefaultApiResponse>> updateLocation(@PathVariable("id") Long id, @RequestBody LocationDTO locationDTO) {
         log.info("LocationController::updateLocation {}", id, locationDTO);
         DefaultApiResponse route = locationService.updateLocation(id, locationDTO);

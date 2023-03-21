@@ -30,9 +30,6 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private StaffService staffService;
 
-    @Autowired
-    private StaffRepository staffRepository;
-
     @Override
     public DefaultApiResponse login(LoginRequest loginRequest) {
         log.info("Authenticate User with Credentials {}", loginRequest);

@@ -5,6 +5,7 @@ import com.richieoscar.agrologistics.dto.auth.LoginRequest;
 import com.richieoscar.agrologistics.dto.auth.LoginResponse;
 import com.richieoscar.agrologistics.dto.auth.SignUpRequest;
 import com.richieoscar.agrologistics.service.AuthService;
+import com.richieoscar.agrologistics.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,8 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<DefaultApiResponse> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         log.info("AuthenticationController::signUp");
+        PasswordUtil.passwordMatch(signUpRequest.getPassword(), signUpRequest.getConfirmPassword());
+        PasswordUtil.validatePassword(signUpRequest.getPassword(), signUpRequest.getConfirmPassword());
         DefaultApiResponse signUpResponse = authService.signUp(signUpRequest);
         return ResponseEntity.ok(signUpResponse);
     }

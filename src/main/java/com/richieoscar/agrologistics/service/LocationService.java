@@ -17,6 +17,7 @@ public interface LocationService {
     DefaultApiResponse getRoutes(Long locationId,int page , int size);
     DefaultApiResponse addRoute(Long locationId, RouteDTO routeDTO);
     DefaultApiResponse updateRoute(Long locationId, RouteDTO routeDTO);
+    void loadLocations();
 
 
 

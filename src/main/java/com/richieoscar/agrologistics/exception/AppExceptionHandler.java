@@ -2,11 +2,11 @@ package com.richieoscar.agrologistics.exception;
 
 import com.richieoscar.agrologistics.dto.DefaultApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,11 +48,29 @@ public class AppExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
-    public DefaultApiResponse handleUnauthorizedException(org.springframework.security.core.AuthenticationException ex) {
+    @ExceptionHandler(AccessDeniedException.class)
+    public DefaultApiResponse handleUnauthorizedException(AccessDeniedException ex) {
         DefaultApiResponse response = new DefaultApiResponse();
         response.setStatus("Failed");
         response.setMessage("Unauthorized to access this resource.");
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    public DefaultApiResponse handleRouteNotFoundException(RouteNotAvailableException ex) {
+        DefaultApiResponse response = new DefaultApiResponse();
+        response.setStatus("Failed");
+        response.setMessage(ex.getMessage());
+        return response;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    public DefaultApiResponse handlePasswordException(PasswordDoNotMatchException ex) {
+        DefaultApiResponse response = new DefaultApiResponse();
+        response.setStatus("Failed");
+        response.setMessage(ex.getMessage());
         return response;
     }
 
