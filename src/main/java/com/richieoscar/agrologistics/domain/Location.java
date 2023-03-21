@@ -24,7 +24,7 @@ public class Location {
     private String longitude;
     @Column
     private String latitude;
-    @OneToMany(mappedBy = "location")
+    @OneToMany(mappedBy = "location",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Route> routes;
 

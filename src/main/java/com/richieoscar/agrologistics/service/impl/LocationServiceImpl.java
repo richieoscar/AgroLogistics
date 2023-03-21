@@ -93,6 +93,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public DefaultApiResponse addLocation(LocationDTO locationDTO) {
+        log.info("LocationServiceImpl::addLocation");
         Location newLocation = locationMapper.mapToEntity(locationDTO);
         Location savedLocation = locationRepository.save(newLocation);
         if (locationDTO.getRoutes() != null && !locationDTO.getRoutes().isEmpty()) {
@@ -105,6 +106,7 @@ public class LocationServiceImpl implements LocationService {
                     ).collect(toList());
             routeRepository.saveAll(routes);
         }
+        log.info("Location Added Successfully");
         DefaultApiResponse defaultApiResponse = new DefaultApiResponse();
         defaultApiResponse.setStatus("success");
         defaultApiResponse.setMessage("Location Added Successfully");
@@ -120,6 +122,7 @@ public class LocationServiceImpl implements LocationService {
         List<RouteDTO> routeDtos = routes.stream().map(route -> routeMapper.mapToDto(route)).collect(toList());
         BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(costPerKilometer));
         RouteDTO routeDTO = calculateBestRoute(routeDtos, cost, fromLocation);
+        log.info("Best Route Calculated");
         defaultApiResponse.setMessage("Best Route Retrieved");
         defaultApiResponse.setStatus("success");
         defaultApiResponse.setData(routeDTO);
@@ -178,7 +181,9 @@ public class LocationServiceImpl implements LocationService {
                     BigDecimal costOfDelivery = BigDecimal.valueOf(route.getDistance()).multiply(cost);
                     route.setCostOfDelivery(costOfDelivery);
                     return route;
-                }).min(Comparator.comparing(RouteDTO::getCostOfDelivery));
+                })
+                .filter(routeDTO -> !routeDTO.isTraffic())
+                .min(Comparator.comparing(RouteDTO::getCostOfDelivery));
         return bestRoute.orElseThrow(() -> new RouteNotAvailableException("No Routes Available"));
     }
 }

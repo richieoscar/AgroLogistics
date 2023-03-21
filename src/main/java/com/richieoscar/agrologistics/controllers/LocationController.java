@@ -20,17 +20,17 @@ public class LocationController {
     private LocationService locationService;
 
     @GetMapping
-    public ResponseEntity<DefaultApiResponse> getLocations(@RequestParam(value = "page", required = false) int page, @RequestParam(value = "size", required = false) int size) {
+    public CompletableFuture<ResponseEntity<DefaultApiResponse>> getLocations(@RequestParam(value = "page", required = false) int page, @RequestParam(value = "size", required = false) int size) {
         log.info("LocationController::getLocations");
         DefaultApiResponse response = locationService.getLocations(page, size);
-        return ResponseEntity.ok(response);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(response));
     }
 
     @PostMapping
-    public ResponseEntity<DefaultApiResponse> addLocation(@RequestBody LocationDTO request) {
+    public CompletableFuture<ResponseEntity<DefaultApiResponse>> addLocation(@RequestBody LocationDTO request) {
         log.info("LocationController::addLocation");
         DefaultApiResponse defaultApiResponse = locationService.addLocation(request);
-        return ResponseEntity.ok(defaultApiResponse);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(defaultApiResponse));
     }
 
     @GetMapping("/best-route")
@@ -49,17 +49,31 @@ public class LocationController {
         return CompletableFuture.completedFuture(ResponseEntity.ok(bestRoute));
     }
 
-    @PostMapping ("/add-route/{locationId}")
+    @PostMapping("/add-route/{locationId}")
     public CompletableFuture<ResponseEntity<DefaultApiResponse>> addRoute(@PathVariable("locationId") Long id, @RequestBody RouteDTO routeDTO) {
         log.info("LocationController::addRoute {}", id, routeDTO);
         DefaultApiResponse route = locationService.addRoute(id, routeDTO);
         return CompletableFuture.completedFuture(ResponseEntity.ok(route));
     }
 
-    @PutMapping ("/update-route/{id}")
+    @PutMapping("/update-route/{id}")
     public CompletableFuture<ResponseEntity<DefaultApiResponse>> updateRoute(@PathVariable("id") Long id, @RequestBody RouteDTO routeDTO) {
         log.info("LocationController::updateRoute {}", id, routeDTO);
         DefaultApiResponse route = locationService.updateRoute(id, routeDTO);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(route));
+    }
+
+    @DeleteMapping("{id}")
+    public CompletableFuture<ResponseEntity<DefaultApiResponse>> deleteLocation(@PathVariable("id") Long id) {
+        log.info("LocationController::deleteLocation {}", id);
+        DefaultApiResponse route = locationService.deleteLocation(id);
+        return CompletableFuture.completedFuture(ResponseEntity.ok(route));
+    }
+
+    @PutMapping("/update-location/{id}")
+    public CompletableFuture<ResponseEntity<DefaultApiResponse>> updateLocation(@PathVariable("id") Long id, @RequestBody LocationDTO locationDTO) {
+        log.info("LocationController::updateLocation {}", id, locationDTO);
+        DefaultApiResponse route = locationService.updateLocation(id, locationDTO);
         return CompletableFuture.completedFuture(ResponseEntity.ok(route));
     }
 }

@@ -6,10 +6,13 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
       hibernate.format_sql: true
+  sql:
+    init:
+      mode: always
 server:
   port: 9080
 

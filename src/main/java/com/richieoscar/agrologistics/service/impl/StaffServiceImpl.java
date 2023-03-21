@@ -58,12 +58,22 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Staff updateStaff(Long id, StaffDTO staffDTO) {
-        return null;
+    public DefaultApiResponse updateStaff(Long id, StaffDTO staffDTO) {
+        log.info("StaffServiceImpl:updateStaff");
+        Staff staff = staffRepository.findById( id).orElseThrow(() -> new StaffException("Staff Not Found"));
+        staff.setLastName(staffDTO.getLastName());
+        staff.setEmail(staffDTO.getEmail());
+        staff.setFirstName(staffDTO.getFirstName());
+        staffRepository.save(staff);
+        DefaultApiResponse defaultApiResponse = new DefaultApiResponse();
+        defaultApiResponse.setMessage("Staff Updated Successful");
+        defaultApiResponse.setStatus("success");
+        return defaultApiResponse;
     }
 
     @Override
     public DefaultApiResponse getStaffs(int size, int page) {
+        log.info("StaffServiceImpl::getStaffs");
         DefaultApiResponse defaultApiResponse = new DefaultApiResponse();
         PageRequest pageRequest = PageRequest.of(size, page, Sort.by(Sort.Direction.DESC, "registeredDate"));
         Page<Staff> stafs = staffRepository.findAll(pageRequest);
@@ -80,6 +90,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public DefaultApiResponse getStaff(int id) {
+        log.info("StaffServiceImpl::getStaff");
         Staff staff = staffRepository.findById((long) id).orElseThrow(() -> new StaffException("Staff Not Found"));
         StaffDTO staffDto = new StaffDTO();
         BeanUtils.copyProperties(staff, staffDto);
@@ -87,6 +98,19 @@ public class StaffServiceImpl implements StaffService {
         defaultApiResponse.setStatus("success");
         defaultApiResponse.setMessage("Staff Retrieved Successfully");
         defaultApiResponse.setData(staffDto);
+        return defaultApiResponse;
+    }
+
+    @Override
+    public DefaultApiResponse addRole(Long id, String role) {
+        log.info("StaffServiceImpl::addRole");
+        Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffException("Staff Not Found"));
+        staff.setRole(Role.valueOf(role));
+        staffRepository.save(staff);
+        log.info("Role Added Successful");
+        DefaultApiResponse defaultApiResponse = new DefaultApiResponse();
+        defaultApiResponse.setStatus("success");
+        defaultApiResponse.setMessage("Role Added Successfully");
         return defaultApiResponse;
     }
 }

@@ -10,8 +10,11 @@ public interface StaffService {
 
     StaffDTO saveStaff(SignUpRequest signUpRequest);
 
-    Staff updateStaff(Long id, StaffDTO staffDTO);
+    DefaultApiResponse updateStaff(Long id, StaffDTO staffDTO);
 
     DefaultApiResponse getStaffs(int size, int page);
     DefaultApiResponse getStaff(int id);
+    DefaultApiResponse addRole(Long id, String role);
+
+
 }
