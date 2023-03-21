@@ -28,6 +28,10 @@ In the Application.yml set up your DB credentials for your local setUp
 
 Run the application in preferred IDE
 
+Docker image can be gotten with command
+
+docker pull richieoscar/agrologistics:lts
+
 
 
 
