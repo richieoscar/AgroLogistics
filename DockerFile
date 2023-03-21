@@ -2,4 +2,5 @@ FROM openjdk:17-alpine
 WORKDIR /app
 EXPOSE 9080
 COPY target/agrologistics.jar /app/agrologistics.jar
+COPY ./DockerFile /var/lib/docker/tmp/buildkit-mount744766112/Dockerfile
 ENTRYPOINT ["java","-jar","/agrologistics.jar"]
