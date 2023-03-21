@@ -32,6 +32,12 @@ Docker image can be gotten with command
 
 docker pull richieoscar/agrologistics:lts
 
+# TECHNOLOGIES 
+
+JAVA
+
+SPRINGBOOT
+
 
 
 
