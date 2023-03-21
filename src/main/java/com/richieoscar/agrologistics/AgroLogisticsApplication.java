@@ -11,7 +11,6 @@ import org.springframework.scheduling.annotation.Async;
 import javax.annotation.PostConstruct;
 
 @SpringBootApplication
-
 public class AgroLogisticsApplication {
 
 

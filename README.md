@@ -32,6 +32,17 @@ Docker image can be gotten with command
 
 docker pull richieoscar/agrologistics:lts
 
+## On Application StartUp 
+Admin user is created
+
+Some endpoints can only be accessed by an admin
+
+Credentials Below
+
+{
+"email": "admin@system.com",
+"password": "password20"
+}
 
 
 
