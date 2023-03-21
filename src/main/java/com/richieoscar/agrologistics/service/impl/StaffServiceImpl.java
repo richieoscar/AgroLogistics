@@ -15,7 +15,9 @@ import com.richieoscar.agrologistics.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -30,14 +32,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Primary
 public class StaffServiceImpl implements StaffService {
 
-    @Autowired
+
     private StaffRepository staffRepository;
-    @Autowired
+
     private PasswordUtil passwordUtil;
 
-    @Autowired
+
     private StaffMapper staffMapper;
 
     @Value("${admin.email}")
@@ -47,6 +50,13 @@ public class StaffServiceImpl implements StaffService {
     private String password;
 
     @Autowired
+    public StaffServiceImpl(StaffRepository staffRepository, PasswordUtil passwordUtil, StaffMapper staffMapper, LocationService locationService) {
+        this.staffRepository = staffRepository;
+        this.passwordUtil = passwordUtil;
+        this.staffMapper = staffMapper;
+        this.locationService = locationService;
+    }
+
     private LocationService locationService;
 
     @Override
@@ -71,7 +81,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public DefaultApiResponse updateStaff(Long id, StaffDTO staffDTO) {
         log.info("StaffServiceImpl:updateStaff");
-        Staff staff = staffRepository.findById( id).orElseThrow(() -> new StaffException("Staff Not Found"));
+        Staff staff = staffRepository.findById(id).orElseThrow(() -> new StaffException("Staff Not Found"));
         staff.setLastName(staffDTO.getLastName());
         staff.setEmail(staffDTO.getEmail());
         staff.setFirstName(staffDTO.getFirstName());
@@ -128,7 +138,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void createSystemUser() {
         Optional<Staff> byEmail = staffRepository.findByEmail("admin@system.com");
-        if(byEmail.isEmpty()){
+        if (byEmail.isEmpty()) {
             log.info("System Initialization::creating system admin user");
             Staff staff = new Staff();
             staff.setPassword(passwordUtil.encodePassword(password));
@@ -142,8 +152,6 @@ public class StaffServiceImpl implements StaffService {
             log.info("System Initialization Completed, Admin User Created");
         }
     }
-
-
 
 
 }
